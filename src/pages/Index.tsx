@@ -14,9 +14,6 @@ const Index = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Startup Intake Form
           </h1>
-          <p className="text-xl text-purple-100 max-w-2xl mx-auto">
-            Let's get your startup launched! Fill out this form so we can understand your vision and create the perfect strategy for your rapid launch.
-          </p>
         </div>
         <StartupIntakeForm />
       </div>
