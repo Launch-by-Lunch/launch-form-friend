@@ -3,7 +3,7 @@ import StartupIntakeForm from "@/components/StartupIntakeForm";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-purple-700">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <img 
