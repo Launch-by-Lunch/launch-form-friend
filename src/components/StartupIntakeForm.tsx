@@ -1,0 +1,559 @@
+
+import React, { useState } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useToast } from "@/hooks/use-toast";
+import { ArrowRight, Building2, User, Target, DollarSign, Clock, Lightbulb } from "lucide-react";
+
+const StartupIntakeForm = () => {
+  const { toast } = useToast();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({
+    // Company Information
+    companyName: '',
+    industry: '',
+    stage: '',
+    location: '',
+    website: '',
+    
+    // Contact Information
+    founderName: '',
+    email: '',
+    phone: '',
+    linkedinProfile: '',
+    
+    // Project Details
+    projectDescription: '',
+    targetAudience: '',
+    uniqueValueProposition: '',
+    competitors: '',
+    
+    // Launch Goals
+    launchTimeline: '',
+    budget: '',
+    budgetFlexibility: '',
+    primaryGoals: [],
+    
+    // Technical Requirements
+    platformNeeds: [],
+    technicalComplexity: '',
+    existingAssets: '',
+    
+    // Additional Information
+    previousExperience: '',
+    biggestChallenges: '',
+    successMetrics: '',
+    additionalComments: ''
+  });
+
+  const totalSteps = 6;
+
+  const handleInputChange = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleArrayChange = (field: string, value: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: checked 
+        ? [...prev[field as keyof typeof prev] as string[], value]
+        : (prev[field as keyof typeof prev] as string[]).filter(item => item !== value)
+    }));
+  };
+
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log('Form submitted:', formData);
+    toast({
+      title: "Form Submitted Successfully!",
+      description: "We'll review your information and get back to you within 24 hours.",
+    });
+  };
+
+  const stepTitles = [
+    "Company Information",
+    "Contact Details", 
+    "Project Overview",
+    "Launch Goals",
+    "Technical Requirements",
+    "Final Details"
+  ];
+
+  const stepIcons = [Building2, User, Target, DollarSign, Clock, Lightbulb];
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label htmlFor="companyName" className="text-white">Company Name *</Label>
+                <Input
+                  id="companyName"
+                  value={formData.companyName}
+                  onChange={(e) => handleInputChange('companyName', e.target.value)}
+                  placeholder="Enter your company name"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                />
+              </div>
+              <div>
+                <Label htmlFor="industry" className="text-white">Industry *</Label>
+                <Select onValueChange={(value) => handleInputChange('industry', value)}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select your industry" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="technology">Technology</SelectItem>
+                    <SelectItem value="healthcare">Healthcare</SelectItem>
+                    <SelectItem value="finance">Finance</SelectItem>
+                    <SelectItem value="ecommerce">E-commerce</SelectItem>
+                    <SelectItem value="education">Education</SelectItem>
+                    <SelectItem value="food">Food & Beverage</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label htmlFor="stage" className="text-white">Company Stage *</Label>
+                <Select onValueChange={(value) => handleInputChange('stage', value)}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select your stage" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="idea">Idea Stage</SelectItem>
+                    <SelectItem value="mvp">MVP/Prototype</SelectItem>
+                    <SelectItem value="early">Early Stage</SelectItem>
+                    <SelectItem value="growth">Growth Stage</SelectItem>
+                    <SelectItem value="scale">Scale Stage</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="location" className="text-white">Location</Label>
+                <Input
+                  id="location"
+                  value={formData.location}
+                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  placeholder="City, State/Country"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="website" className="text-white">Website (if exists)</Label>
+              <Input
+                id="website"
+                value={formData.website}
+                onChange={(e) => handleInputChange('website', e.target.value)}
+                placeholder="https://yourwebsite.com"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label htmlFor="founderName" className="text-white">Full Name *</Label>
+                <Input
+                  id="founderName"
+                  value={formData.founderName}
+                  onChange={(e) => handleInputChange('founderName', e.target.value)}
+                  placeholder="Your full name"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                />
+              </div>
+              <div>
+                <Label htmlFor="email" className="text-white">Email Address *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  placeholder="your@email.com"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label htmlFor="phone" className="text-white">Phone Number</Label>
+                <Input
+                  id="phone"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  placeholder="+1 (555) 123-4567"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                />
+              </div>
+              <div>
+                <Label htmlFor="linkedinProfile" className="text-white">LinkedIn Profile</Label>
+                <Input
+                  id="linkedinProfile"
+                  value={formData.linkedinProfile}
+                  onChange={(e) => handleInputChange('linkedinProfile', e.target.value)}
+                  placeholder="https://linkedin.com/in/yourprofile"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                />
+              </div>
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-6">
+            <div>
+              <Label htmlFor="projectDescription" className="text-white">Project Description *</Label>
+              <Textarea
+                id="projectDescription"
+                value={formData.projectDescription}
+                onChange={(e) => handleInputChange('projectDescription', e.target.value)}
+                placeholder="Describe your startup idea, product, or service in detail..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[120px]"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="targetAudience" className="text-white">Target Audience *</Label>
+              <Textarea
+                id="targetAudience"
+                value={formData.targetAudience}
+                onChange={(e) => handleInputChange('targetAudience', e.target.value)}
+                placeholder="Who are your ideal customers? Demographics, pain points, etc."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="uniqueValueProposition" className="text-white">Unique Value Proposition *</Label>
+              <Textarea
+                id="uniqueValueProposition"
+                value={formData.uniqueValueProposition}
+                onChange={(e) => handleInputChange('uniqueValueProposition', e.target.value)}
+                placeholder="What makes your startup unique? How do you solve problems differently?"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="competitors" className="text-white">Main Competitors</Label>
+              <Textarea
+                id="competitors"
+                value={formData.competitors}
+                onChange={(e) => handleInputChange('competitors', e.target.value)}
+                placeholder="List your main competitors and how you differentiate from them"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label htmlFor="launchTimeline" className="text-white">Desired Launch Timeline *</Label>
+                <Select onValueChange={(value) => handleInputChange('launchTimeline', value)}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select timeline" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="asap">ASAP (Rush)</SelectItem>
+                    <SelectItem value="1month">Within 1 month</SelectItem>
+                    <SelectItem value="3months">1-3 months</SelectItem>
+                    <SelectItem value="6months">3-6 months</SelectItem>
+                    <SelectItem value="flexible">Flexible</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="budget" className="text-white">Budget Range *</Label>
+                <Select onValueChange={(value) => handleInputChange('budget', value)}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select budget" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="under5k">Under $5,000</SelectItem>
+                    <SelectItem value="5k-15k">$5,000 - $15,000</SelectItem>
+                    <SelectItem value="15k-50k">$15,000 - $50,000</SelectItem>
+                    <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
+                    <SelectItem value="over100k">Over $100,000</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div>
+              <Label className="text-white">Budget Flexibility</Label>
+              <RadioGroup 
+                value={formData.budgetFlexibility} 
+                onValueChange={(value) => handleInputChange('budgetFlexibility', value)}
+                className="mt-2"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="fixed" id="fixed" />
+                  <Label htmlFor="fixed" className="text-white">Fixed budget</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="some" id="some" />
+                  <Label htmlFor="some" className="text-white">Some flexibility (+/- 20%)</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="flexible" id="flexible" />
+                  <Label htmlFor="flexible" className="text-white">Very flexible</Label>
+                </div>
+              </RadioGroup>
+            </div>
+            
+            <div>
+              <Label className="text-white">Primary Launch Goals (Select all that apply)</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                {[
+                  'Brand awareness',
+                  'User acquisition',
+                  'Revenue generation',
+                  'Market validation',
+                  'Investor readiness',
+                  'Partnership opportunities'
+                ].map((goal) => (
+                  <div key={goal} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={goal}
+                      checked={formData.primaryGoals.includes(goal)}
+                      onCheckedChange={(checked) => handleArrayChange('primaryGoals', goal, checked as boolean)}
+                    />
+                    <Label htmlFor={goal} className="text-white">{goal}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-6">
+            <div>
+              <Label className="text-white">Platform Needs (Select all that apply)</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                {[
+                  'Website/Landing page',
+                  'Mobile app (iOS)',
+                  'Mobile app (Android)',
+                  'Web application',
+                  'E-commerce platform',
+                  'CRM system',
+                  'Analytics setup',
+                  'Social media presence'
+                ].map((platform) => (
+                  <div key={platform} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={platform}
+                      checked={formData.platformNeeds.includes(platform)}
+                      onCheckedChange={(checked) => handleArrayChange('platformNeeds', platform, checked as boolean)}
+                    />
+                    <Label htmlFor={platform} className="text-white">{platform}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="technicalComplexity" className="text-white">Technical Complexity Level</Label>
+              <Select onValueChange={(value) => handleInputChange('technicalComplexity', value)}>
+                <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                  <SelectValue placeholder="Select complexity" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="simple">Simple (Basic website/app)</SelectItem>
+                  <SelectItem value="moderate">Moderate (Custom features, integrations)</SelectItem>
+                  <SelectItem value="complex">Complex (Advanced functionality, AI/ML)</SelectItem>
+                  <SelectItem value="enterprise">Enterprise (Large scale, multiple systems)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="existingAssets" className="text-white">Existing Assets</Label>
+              <Textarea
+                id="existingAssets"
+                value={formData.existingAssets}
+                onChange={(e) => handleInputChange('existingAssets', e.target.value)}
+                placeholder="Do you have existing branding, content, code, designs, or other assets we can leverage?"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+          </div>
+        );
+
+      case 6:
+        return (
+          <div className="space-y-6">
+            <div>
+              <Label htmlFor="previousExperience" className="text-white">Previous Startup/Business Experience</Label>
+              <Textarea
+                id="previousExperience"
+                value={formData.previousExperience}
+                onChange={(e) => handleInputChange('previousExperience', e.target.value)}
+                placeholder="Tell us about your previous entrepreneurial experience..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="biggestChallenges" className="text-white">Biggest Challenges You Anticipate</Label>
+              <Textarea
+                id="biggestChallenges"
+                value={formData.biggestChallenges}
+                onChange={(e) => handleInputChange('biggestChallenges', e.target.value)}
+                placeholder="What challenges do you foresee in launching your startup?"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="successMetrics" className="text-white">How Will You Measure Success?</Label>
+              <Textarea
+                id="successMetrics"
+                value={formData.successMetrics}
+                onChange={(e) => handleInputChange('successMetrics', e.target.value)}
+                placeholder="What metrics will indicate that your launch was successful?"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="additionalComments" className="text-white">Additional Comments</Label>
+              <Textarea
+                id="additionalComments"
+                value={formData.additionalComments}
+                onChange={(e) => handleInputChange('additionalComments', e.target.value)}
+                placeholder="Anything else you'd like us to know about your startup or specific requirements?"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-4">
+          {stepTitles.map((title, index) => {
+            const IconComponent = stepIcons[index];
+            return (
+              <div
+                key={index}
+                className={`flex flex-col items-center ${
+                  index + 1 <= currentStep ? 'text-orange-400' : 'text-white/40'
+                }`}
+              >
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
+                    index + 1 <= currentStep
+                      ? 'border-orange-400 bg-orange-400/20'
+                      : 'border-white/40'
+                  }`}
+                >
+                  <IconComponent size={20} />
+                </div>
+                <span className="text-xs mt-1 text-center hidden md:block">{title}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="w-full bg-white/20 rounded-full h-2">
+          <div
+            className="bg-gradient-to-r from-orange-400 to-orange-500 h-2 rounded-full transition-all duration-500"
+            style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Form Content */}
+      <Card className="bg-white/5 backdrop-blur-lg border-white/10 shadow-2xl">
+        <CardContent className="p-8">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-white mb-2">
+              {stepTitles[currentStep - 1]}
+            </h2>
+            <p className="text-white/70">
+              Step {currentStep} of {totalSteps}
+            </p>
+          </div>
+
+          {renderStep()}
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between mt-8">
+            <Button
+              onClick={handlePrevious}
+              disabled={currentStep === 1}
+              variant="outline"
+              className="bg-white/10 border-white/20 text-white hover:bg-white/20 disabled:opacity-50"
+            >
+              Previous
+            </Button>
+            
+            {currentStep === totalSteps ? (
+              <Button
+                onClick={handleSubmit}
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+              >
+                Submit Application
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            ) : (
+              <Button
+                onClick={handleNext}
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+              >
+                Next Step
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default StartupIntakeForm;
