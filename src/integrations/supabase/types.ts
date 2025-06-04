@@ -9,7 +9,99 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      startup_submissions: {
+        Row: {
+          additional_comments: string | null
+          additional_contacts: Json | null
+          company_name: string
+          competitors: string | null
+          created_at: string
+          current_resistance: string | null
+          current_tech_stack: string | null
+          email: string
+          founder_name: string
+          id: string
+          industry: string | null
+          linkedin_profile: string | null
+          location: string | null
+          longer_term_goals: string | null
+          phone: string | null
+          project_description: string | null
+          role: string | null
+          short_term_goals: string | null
+          stage: string | null
+          success_metrics: string | null
+          superpower: string | null
+          target_audience: string | null
+          unique_value_proposition: string | null
+          updated_at: string
+          uploaded_document: Json | null
+          using_ai_tools: string | null
+          website: string | null
+          which_ai_tool: string | null
+        }
+        Insert: {
+          additional_comments?: string | null
+          additional_contacts?: Json | null
+          company_name: string
+          competitors?: string | null
+          created_at?: string
+          current_resistance?: string | null
+          current_tech_stack?: string | null
+          email: string
+          founder_name: string
+          id?: string
+          industry?: string | null
+          linkedin_profile?: string | null
+          location?: string | null
+          longer_term_goals?: string | null
+          phone?: string | null
+          project_description?: string | null
+          role?: string | null
+          short_term_goals?: string | null
+          stage?: string | null
+          success_metrics?: string | null
+          superpower?: string | null
+          target_audience?: string | null
+          unique_value_proposition?: string | null
+          updated_at?: string
+          uploaded_document?: Json | null
+          using_ai_tools?: string | null
+          website?: string | null
+          which_ai_tool?: string | null
+        }
+        Update: {
+          additional_comments?: string | null
+          additional_contacts?: Json | null
+          company_name?: string
+          competitors?: string | null
+          created_at?: string
+          current_resistance?: string | null
+          current_tech_stack?: string | null
+          email?: string
+          founder_name?: string
+          id?: string
+          industry?: string | null
+          linkedin_profile?: string | null
+          location?: string | null
+          longer_term_goals?: string | null
+          phone?: string | null
+          project_description?: string | null
+          role?: string | null
+          short_term_goals?: string | null
+          stage?: string | null
+          success_metrics?: string | null
+          superpower?: string | null
+          target_audience?: string | null
+          unique_value_proposition?: string | null
+          updated_at?: string
+          uploaded_document?: Json | null
+          using_ai_tools?: string | null
+          website?: string | null
+          which_ai_tool?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

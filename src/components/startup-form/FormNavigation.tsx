@@ -9,6 +9,7 @@ interface FormNavigationProps {
   onPrevious: () => void;
   onNext: () => void;
   onSubmit: () => void;
+  isSubmitting?: boolean;
 }
 
 const FormNavigation: React.FC<FormNavigationProps> = ({
@@ -16,7 +17,8 @@ const FormNavigation: React.FC<FormNavigationProps> = ({
   totalSteps,
   onPrevious,
   onNext,
-  onSubmit
+  onSubmit,
+  isSubmitting = false
 }) => {
   return (
     <div className="flex justify-between mt-8">
@@ -32,10 +34,11 @@ const FormNavigation: React.FC<FormNavigationProps> = ({
       {currentStep === totalSteps ? (
         <Button
           onClick={onSubmit}
-          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+          disabled={isSubmitting}
+          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white disabled:opacity-50"
         >
-          Submit Application
-          <ArrowRight className="ml-2 h-4 w-4" />
+          {isSubmitting ? 'Submitting...' : 'Submit Application'}
+          {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}
         </Button>
       ) : (
         <Button
