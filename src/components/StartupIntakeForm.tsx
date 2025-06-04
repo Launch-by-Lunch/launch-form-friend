@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, Building2, User, Target, DollarSign, Clock, Lightbulb, Plus, Minus } from "lucide-react";
+import { ArrowRight, Building2, User, Target, DollarSign, Lightbulb, Plus, Minus } from "lucide-react";
 
 const StartupIntakeForm = () => {
   const { toast } = useToast();
@@ -46,15 +46,12 @@ const StartupIntakeForm = () => {
     whichAiTool: '',
     currentResistance: '',
     
-    // Technical Requirements
-    platformNeeds: [],
-    
     // Additional Information
     successMetrics: '',
     additionalComments: ''
   });
 
-  const totalSteps = 6;
+  const totalSteps = 5;
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({
@@ -115,11 +112,10 @@ const StartupIntakeForm = () => {
     "Contact Details", 
     "Project Overview",
     "Launch Goals",
-    "Technical Requirements",
     "Final Details"
   ];
 
-  const stepIcons = [Building2, User, Target, DollarSign, Clock, Lightbulb];
+  const stepIcons = [Building2, User, Target, DollarSign, Lightbulb];
 
   const renderStep = () => {
     switch (currentStep) {
@@ -470,36 +466,6 @@ const StartupIntakeForm = () => {
         );
 
       case 5:
-        return (
-          <div className="space-y-6">
-            <div>
-              <Label className="text-white">Platform Needs (Select all that apply)</Label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                {[
-                  'Website/Landing page',
-                  'Mobile app (iOS)',
-                  'Mobile app (Android)',
-                  'Web application',
-                  'E-commerce platform',
-                  'CRM system',
-                  'Analytics setup',
-                  'Social media presence'
-                ].map((platform) => (
-                  <div key={platform} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={platform}
-                      checked={formData.platformNeeds.includes(platform)}
-                      onCheckedChange={(checked) => handleArrayChange('platformNeeds', platform, checked as boolean)}
-                    />
-                    <Label htmlFor={platform} className="text-white">{platform}</Label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 6:
         return (
           <div className="space-y-6">
             <div>
