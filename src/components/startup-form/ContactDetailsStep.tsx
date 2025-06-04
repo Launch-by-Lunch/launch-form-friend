@@ -40,6 +40,19 @@ const ContactDetailsStep: React.FC<ContactDetailsStepProps> = ({
             />
           </div>
           <div>
+            <Label htmlFor="role" className="text-white">Role/Title</Label>
+            <Input
+              id="role"
+              value={formData.role}
+              onChange={(e) => onInputChange('role', e.target.value)}
+              placeholder="Founder, CEO, etc."
+              className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+            />
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
             <Label htmlFor="email" className="text-white">Email Address *</Label>
             <Input
               id="email"
@@ -50,9 +63,6 @@ const ContactDetailsStep: React.FC<ContactDetailsStepProps> = ({
               className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
             />
           </div>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <Label htmlFor="phone" className="text-white">Phone Number</Label>
             <Input
@@ -63,6 +73,9 @@ const ContactDetailsStep: React.FC<ContactDetailsStepProps> = ({
               className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
             />
           </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <Label htmlFor="linkedinProfile" className="text-white">LinkedIn Profile</Label>
             <Input
@@ -70,6 +83,16 @@ const ContactDetailsStep: React.FC<ContactDetailsStepProps> = ({
               value={formData.linkedinProfile}
               onChange={(e) => onInputChange('linkedinProfile', e.target.value)}
               placeholder="https://linkedin.com/in/yourprofile"
+              className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+            />
+          </div>
+          <div>
+            <Label htmlFor="superpower" className="text-white">What is your superpower?</Label>
+            <Input
+              id="superpower"
+              value={formData.superpower}
+              onChange={(e) => onInputChange('superpower', e.target.value)}
+              placeholder="What makes you unique?"
               className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
             />
           </div>

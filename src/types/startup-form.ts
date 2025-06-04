@@ -12,6 +12,8 @@ export interface FormData {
   email: string;
   phone: string;
   linkedinProfile: string;
+  role: string;
+  superpower: string;
   
   // Project Details
   projectDescription: string;

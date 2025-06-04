@@ -33,6 +33,8 @@ const StartupIntakeForm = () => {
     email: '',
     phone: '',
     linkedinProfile: '',
+    role: '',
+    superpower: '',
     
     // Project Details
     projectDescription: '',
