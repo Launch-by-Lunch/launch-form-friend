@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "Launch by Lunch <onboarding@resend.dev>",
-      to: ["welcome@launchbylunch.co"],
+      to: ["karen@launchbylunch.co"],
       subject: `New Startup Application: ${submissionData.company_name}`,
       html: `
         <h1>New Startup Application Received!</h1>
