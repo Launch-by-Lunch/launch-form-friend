@@ -15,8 +15,8 @@ const StartupIntakeForm = () => {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [additionalContacts, setAdditionalContacts] = useState<AdditionalContact[]>([
-    { name: '', email: '', phone: '', role: '', linkedinProfile: '' },
-    { name: '', email: '', phone: '', role: '', linkedinProfile: '' }
+    { name: '', email: '', phone: '', role: '', linkedinProfile: '', superpower: '' },
+    { name: '', email: '', phone: '', role: '', linkedinProfile: '', superpower: '' }
   ]);
   const [showAdditionalContacts, setShowAdditionalContacts] = useState([false, false]);
   const [uploadedDocument, setUploadedDocument] = useState<File | null>(null);

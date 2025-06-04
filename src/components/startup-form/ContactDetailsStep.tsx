@@ -155,15 +155,27 @@ const ContactDetailsStep: React.FC<ContactDetailsStepProps> = ({
                   </div>
                 </div>
                 
-                <div>
-                  <Label htmlFor={`additionalLinkedin${index}`} className="text-white">LinkedIn Profile</Label>
-                  <Input
-                    id={`additionalLinkedin${index}`}
-                    value={additionalContacts[index].linkedinProfile}
-                    onChange={(e) => onAdditionalContactChange(index, 'linkedinProfile', e.target.value)}
-                    placeholder="https://linkedin.com/in/profile"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor={`additionalLinkedin${index}`} className="text-white">LinkedIn Profile</Label>
+                    <Input
+                      id={`additionalLinkedin${index}`}
+                      value={additionalContacts[index].linkedinProfile}
+                      onChange={(e) => onAdditionalContactChange(index, 'linkedinProfile', e.target.value)}
+                      placeholder="https://linkedin.com/in/profile"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor={`additionalSuperpower${index}`} className="text-white">What is your superpower?</Label>
+                    <Input
+                      id={`additionalSuperpower${index}`}
+                      value={additionalContacts[index].superpower}
+                      onChange={(e) => onAdditionalContactChange(index, 'superpower', e.target.value)}
+                      placeholder="What makes you unique?"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                    />
+                  </div>
                 </div>
               </div>
             )}

@@ -38,6 +38,7 @@ export interface AdditionalContact {
   phone: string;
   role: string;
   linkedinProfile: string;
+  superpower: string;
 }
 
 export interface SubmissionData extends FormData {
