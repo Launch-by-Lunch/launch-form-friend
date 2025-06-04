@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, Building2, User, Target, DollarSign, Lightbulb, Plus, Minus } from "lucide-react";
+import { ArrowRight, Building2, User, Target, DollarSign, Lightbulb, Plus, Minus, Upload, FileImage, File } from "lucide-react";
 
 const StartupIntakeForm = () => {
   const { toast } = useToast();
@@ -18,6 +18,7 @@ const StartupIntakeForm = () => {
     { name: '', email: '', phone: '', role: '', linkedinProfile: '' }
   ]);
   const [showAdditionalContacts, setShowAdditionalContacts] = useState([false, false]);
+  const [uploadedDocument, setUploadedDocument] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     // Company Information
     companyName: '',
@@ -74,6 +75,34 @@ const StartupIntakeForm = () => {
     );
   };
 
+  const handleDocumentUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'application/pdf'];
+      if (allowedTypes.includes(file.type)) {
+        setUploadedDocument(file);
+        toast({
+          title: "Document Uploaded",
+          description: `${file.name} has been uploaded successfully.`,
+        });
+      } else {
+        toast({
+          title: "Invalid File Type",
+          description: "Please upload a JPG or PDF file only.",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
+  const removeDocument = () => {
+    setUploadedDocument(null);
+    toast({
+      title: "Document Removed",
+      description: "The uploaded document has been removed.",
+    });
+  };
+
   const handleArrayChange = (field: string, value: string, checked: boolean) => {
     setFormData(prev => ({
       ...prev,
@@ -98,7 +127,12 @@ const StartupIntakeForm = () => {
   const handleSubmit = () => {
     const submissionData = {
       ...formData,
-      additionalContacts: additionalContacts.filter((_, index) => showAdditionalContacts[index])
+      additionalContacts: additionalContacts.filter((_, index) => showAdditionalContacts[index]),
+      uploadedDocument: uploadedDocument ? {
+        name: uploadedDocument.name,
+        size: uploadedDocument.size,
+        type: uploadedDocument.type
+      } : null
     };
     console.log('Form submitted:', submissionData);
     toast({
@@ -389,6 +423,64 @@ const StartupIntakeForm = () => {
                 placeholder="List your main competitors and how you differentiate from them"
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
               />
+            </div>
+
+            {/* Document Upload Section */}
+            <div className="space-y-4">
+              <Label className="text-white">Project Document (Optional)</Label>
+              <p className="text-white/70 text-sm">Upload a project overview, pitch deck, or business plan (JPG or PDF only, max 10MB)</p>
+              
+              {!uploadedDocument ? (
+                <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center">
+                  <Upload className="w-12 h-12 text-white/60 mx-auto mb-4" />
+                  <div className="space-y-2">
+                    <p className="text-white/80">Drag and drop your document here, or</p>
+                    <label htmlFor="document-upload">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                        onClick={() => document.getElementById('document-upload')?.click()}
+                      >
+                        Choose File
+                      </Button>
+                    </label>
+                    <input
+                      id="document-upload"
+                      type="file"
+                      accept=".jpg,.jpeg,.pdf"
+                      onChange={handleDocumentUpload}
+                      className="hidden"
+                    />
+                  </div>
+                  <p className="text-white/60 text-xs mt-2">Supported formats: JPG, PDF (max 10MB)</p>
+                </div>
+              ) : (
+                <div className="bg-white/5 p-4 rounded-lg border border-white/10 flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    {uploadedDocument.type === 'application/pdf' ? (
+                      <File className="w-8 h-8 text-red-400" />
+                    ) : (
+                      <FileImage className="w-8 h-8 text-blue-400" />
+                    )}
+                    <div>
+                      <p className="text-white font-medium">{uploadedDocument.name}</p>
+                      <p className="text-white/60 text-sm">
+                        {(uploadedDocument.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={removeDocument}
+                    variant="outline"
+                    size="sm"
+                    className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  >
+                    Remove
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         );
