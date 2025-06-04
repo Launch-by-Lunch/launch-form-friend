@@ -48,7 +48,6 @@ const StartupIntakeForm = () => {
     
     // Technical Requirements
     platformNeeds: [],
-    technicalComplexity: '',
     
     // Additional Information
     successMetrics: '',
@@ -496,21 +495,6 @@ const StartupIntakeForm = () => {
                   </div>
                 ))}
               </div>
-            </div>
-            
-            <div>
-              <Label htmlFor="technicalComplexity" className="text-white">Technical Complexity Level</Label>
-              <Select onValueChange={(value) => handleInputChange('technicalComplexity', value)}>
-                <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                  <SelectValue placeholder="Select complexity" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="simple">Simple (Basic website/app)</SelectItem>
-                  <SelectItem value="moderate">Moderate (Custom features, integrations)</SelectItem>
-                  <SelectItem value="complex">Complex (Advanced functionality, AI/ML)</SelectItem>
-                  <SelectItem value="enterprise">Enterprise (Large scale, multiple systems)</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </div>
         );
