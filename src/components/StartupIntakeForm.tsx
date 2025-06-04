@@ -49,11 +49,8 @@ const StartupIntakeForm = () => {
     // Technical Requirements
     platformNeeds: [],
     technicalComplexity: '',
-    existingAssets: '',
     
     // Additional Information
-    previousExperience: '',
-    biggestChallenges: '',
     successMetrics: '',
     additionalComments: ''
   });
@@ -515,45 +512,12 @@ const StartupIntakeForm = () => {
                 </SelectContent>
               </Select>
             </div>
-            
-            <div>
-              <Label htmlFor="existingAssets" className="text-white">Existing Assets</Label>
-              <Textarea
-                id="existingAssets"
-                value={formData.existingAssets}
-                onChange={(e) => handleInputChange('existingAssets', e.target.value)}
-                placeholder="Do you have existing branding, content, code, designs, or other assets we can leverage?"
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-              />
-            </div>
           </div>
         );
 
       case 6:
         return (
           <div className="space-y-6">
-            <div>
-              <Label htmlFor="previousExperience" className="text-white">Previous Startup/Business Experience</Label>
-              <Textarea
-                id="previousExperience"
-                value={formData.previousExperience}
-                onChange={(e) => handleInputChange('previousExperience', e.target.value)}
-                placeholder="Tell us about your previous entrepreneurial experience..."
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="biggestChallenges" className="text-white">Biggest Challenges You Anticipate</Label>
-              <Textarea
-                id="biggestChallenges"
-                value={formData.biggestChallenges}
-                onChange={(e) => handleInputChange('biggestChallenges', e.target.value)}
-                placeholder="What challenges do you foresee in launching your startup?"
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-              />
-            </div>
-            
             <div>
               <Label htmlFor="successMetrics" className="text-white">How Will You Measure Success?</Label>
               <Textarea
