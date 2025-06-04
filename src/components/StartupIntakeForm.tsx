@@ -39,10 +39,12 @@ const StartupIntakeForm = () => {
     competitors: '',
     
     // Launch Goals
-    launchTimeline: '',
-    budget: '',
-    budgetFlexibility: '',
-    primaryGoals: [],
+    shortTermGoals: '',
+    longerTermGoals: '',
+    currentTechStack: '',
+    usingAiTools: '',
+    whichAiTool: '',
+    currentResistance: '',
     
     // Technical Requirements
     platformNeeds: [],
@@ -402,82 +404,71 @@ const StartupIntakeForm = () => {
       case 4:
         return (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="launchTimeline" className="text-white">Desired Launch Timeline *</Label>
-                <Select onValueChange={(value) => handleInputChange('launchTimeline', value)}>
-                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                    <SelectValue placeholder="Select timeline" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="asap">ASAP (Rush)</SelectItem>
-                    <SelectItem value="1month">Within 1 month</SelectItem>
-                    <SelectItem value="3months">1-3 months</SelectItem>
-                    <SelectItem value="6months">3-6 months</SelectItem>
-                    <SelectItem value="flexible">Flexible</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="budget" className="text-white">Budget Range *</Label>
-                <Select onValueChange={(value) => handleInputChange('budget', value)}>
-                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                    <SelectValue placeholder="Select budget" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="under5k">Under $5,000</SelectItem>
-                    <SelectItem value="5k-15k">$5,000 - $15,000</SelectItem>
-                    <SelectItem value="15k-50k">$15,000 - $50,000</SelectItem>
-                    <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
-                    <SelectItem value="over100k">Over $100,000</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <div>
+              <Label htmlFor="shortTermGoals" className="text-white">What are your short term goals (1-6 months)?</Label>
+              <Textarea
+                id="shortTermGoals"
+                value={formData.shortTermGoals}
+                onChange={(e) => handleInputChange('shortTermGoals', e.target.value)}
+                placeholder="Describe your short term goals for the next 1-6 months..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[100px]"
+              />
             </div>
             
             <div>
-              <Label className="text-white">Budget Flexibility</Label>
-              <RadioGroup 
-                value={formData.budgetFlexibility} 
-                onValueChange={(value) => handleInputChange('budgetFlexibility', value)}
-                className="mt-2"
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="fixed" id="fixed" />
-                  <Label htmlFor="fixed" className="text-white">Fixed budget</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="some" id="some" />
-                  <Label htmlFor="some" className="text-white">Some flexibility (+/- 20%)</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="flexible" id="flexible" />
-                  <Label htmlFor="flexible" className="text-white">Very flexible</Label>
-                </div>
-              </RadioGroup>
+              <Label htmlFor="longerTermGoals" className="text-white">What are your longer term goals (6 - 12 months)?</Label>
+              <Textarea
+                id="longerTermGoals"
+                value={formData.longerTermGoals}
+                onChange={(e) => handleInputChange('longerTermGoals', e.target.value)}
+                placeholder="Describe your longer term goals for 6-12 months..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[100px]"
+              />
             </div>
             
             <div>
-              <Label className="text-white">Primary Launch Goals (Select all that apply)</Label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                {[
-                  'Brand awareness',
-                  'User acquisition',
-                  'Revenue generation',
-                  'Market validation',
-                  'Investor readiness',
-                  'Partnership opportunities'
-                ].map((goal) => (
-                  <div key={goal} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={goal}
-                      checked={formData.primaryGoals.includes(goal)}
-                      onCheckedChange={(checked) => handleArrayChange('primaryGoals', goal, checked as boolean)}
-                    />
-                    <Label htmlFor={goal} className="text-white">{goal}</Label>
-                  </div>
-                ))}
-              </div>
+              <Label htmlFor="currentTechStack" className="text-white">What is your current tech stack?</Label>
+              <Textarea
+                id="currentTechStack"
+                value={formData.currentTechStack}
+                onChange={(e) => handleInputChange('currentTechStack', e.target.value)}
+                placeholder="Include everything from your email provider, CRM, newsletter, front end, back end, authentication, or AI tools..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[120px]"
+              />
+              <p className="text-sm text-white/60 mt-1">This should include everything from your email provider, CRM, newsletter, front end, back end, authentication, or AI tools.</p>
+            </div>
+            
+            <div>
+              <Label htmlFor="usingAiTools" className="text-white">Are you currently using AI tools to build your product?</Label>
+              <Textarea
+                id="usingAiTools"
+                value={formData.usingAiTools}
+                onChange={(e) => handleInputChange('usingAiTools', e.target.value)}
+                placeholder="Tell us about your current use of AI tools..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="whichAiTool" className="text-white">If so, which AI tool are you using?</Label>
+              <Textarea
+                id="whichAiTool"
+                value={formData.whichAiTool}
+                onChange={(e) => handleInputChange('whichAiTool', e.target.value)}
+                placeholder="Specify which AI tools you're currently using..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="currentResistance" className="text-white">What is the current resistance you're facing or will face soon?</Label>
+              <Textarea
+                id="currentResistance"
+                value={formData.currentResistance}
+                onChange={(e) => handleInputChange('currentResistance', e.target.value)}
+                placeholder="Describe the challenges, obstacles, or resistance you're currently facing or anticipate..."
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/60 min-h-[100px]"
+              />
             </div>
           </div>
         );
