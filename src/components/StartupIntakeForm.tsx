@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,11 +8,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, Building2, User, Target, DollarSign, Clock, Lightbulb } from "lucide-react";
+import { ArrowRight, Building2, User, Target, DollarSign, Clock, Lightbulb, Plus, Minus } from "lucide-react";
 
 const StartupIntakeForm = () => {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
+  const [additionalContacts, setAdditionalContacts] = useState([
+    { name: '', email: '', phone: '', role: '', linkedinProfile: '' },
+    { name: '', email: '', phone: '', role: '', linkedinProfile: '' }
+  ]);
+  const [showAdditionalContacts, setShowAdditionalContacts] = useState([false, false]);
   const [formData, setFormData] = useState({
     // Company Information
     companyName: '',
@@ -61,6 +65,20 @@ const StartupIntakeForm = () => {
     }));
   };
 
+  const handleAdditionalContactChange = (index: number, field: string, value: string) => {
+    setAdditionalContacts(prev => 
+      prev.map((contact, i) => 
+        i === index ? { ...contact, [field]: value } : contact
+      )
+    );
+  };
+
+  const toggleAdditionalContact = (index: number) => {
+    setShowAdditionalContacts(prev => 
+      prev.map((show, i) => i === index ? !show : show)
+    );
+  };
+
   const handleArrayChange = (field: string, value: string, checked: boolean) => {
     setFormData(prev => ({
       ...prev,
@@ -83,7 +101,11 @@ const StartupIntakeForm = () => {
   };
 
   const handleSubmit = () => {
-    console.log('Form submitted:', formData);
+    const submissionData = {
+      ...formData,
+      additionalContacts: additionalContacts.filter((_, index) => showAdditionalContacts[index])
+    };
+    console.log('Form submitted:', submissionData);
     toast({
       title: "Form Submitted Successfully!",
       description: "We'll review your information and get back to you within 24 hours.",
@@ -179,52 +201,151 @@ const StartupIntakeForm = () => {
 
       case 2:
         return (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="founderName" className="text-white">Full Name *</Label>
-                <Input
-                  id="founderName"
-                  value={formData.founderName}
-                  onChange={(e) => handleInputChange('founderName', e.target.value)}
-                  placeholder="Your full name"
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                />
+          <div className="space-y-8">
+            {/* Primary Contact */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-white border-b border-white/20 pb-2">Primary Contact</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="founderName" className="text-white">Full Name *</Label>
+                  <Input
+                    id="founderName"
+                    value={formData.founderName}
+                    onChange={(e) => handleInputChange('founderName', e.target.value)}
+                    placeholder="Your full name"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="text-white">Email Address *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="your@email.com"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                  />
+                </div>
               </div>
-              <div>
-                <Label htmlFor="email" className="text-white">Email Address *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  placeholder="your@email.com"
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="phone" className="text-white">Phone Number</Label>
+                  <Input
+                    id="phone"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    placeholder="+1 (555) 123-4567"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="linkedinProfile" className="text-white">LinkedIn Profile</Label>
+                  <Input
+                    id="linkedinProfile"
+                    value={formData.linkedinProfile}
+                    onChange={(e) => handleInputChange('linkedinProfile', e.target.value)}
+                    placeholder="https://linkedin.com/in/yourprofile"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                  />
+                </div>
               </div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="phone" className="text-white">Phone Number</Label>
-                <Input
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
-                  placeholder="+1 (555) 123-4567"
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                />
-              </div>
-              <div>
-                <Label htmlFor="linkedinProfile" className="text-white">LinkedIn Profile</Label>
-                <Input
-                  id="linkedinProfile"
-                  value={formData.linkedinProfile}
-                  onChange={(e) => handleInputChange('linkedinProfile', e.target.value)}
-                  placeholder="https://linkedin.com/in/yourprofile"
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                />
-              </div>
+
+            {/* Additional Contacts */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-white border-b border-white/20 pb-2">Additional Contacts</h3>
+              <p className="text-white/70 text-sm">Add team members, co-founders, or other key contacts for your startup.</p>
+              
+              {[0, 1].map((index) => (
+                <div key={index} className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-lg font-medium text-white">Contact {index + 2}</h4>
+                    <Button
+                      type="button"
+                      onClick={() => toggleAdditionalContact(index)}
+                      variant="outline"
+                      size="sm"
+                      className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                    >
+                      {showAdditionalContacts[index] ? (
+                        <>
+                          <Minus className="w-4 h-4 mr-2" />
+                          Remove
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Contact
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                  
+                  {showAdditionalContacts[index] && (
+                    <div className="bg-white/5 p-6 rounded-lg border border-white/10 space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor={`additionalName${index}`} className="text-white">Full Name</Label>
+                          <Input
+                            id={`additionalName${index}`}
+                            value={additionalContacts[index].name}
+                            onChange={(e) => handleAdditionalContactChange(index, 'name', e.target.value)}
+                            placeholder="Full name"
+                            className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor={`additionalRole${index}`} className="text-white">Role/Title</Label>
+                          <Input
+                            id={`additionalRole${index}`}
+                            value={additionalContacts[index].role}
+                            onChange={(e) => handleAdditionalContactChange(index, 'role', e.target.value)}
+                            placeholder="Co-founder, CTO, etc."
+                            className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor={`additionalEmail${index}`} className="text-white">Email Address</Label>
+                          <Input
+                            id={`additionalEmail${index}`}
+                            type="email"
+                            value={additionalContacts[index].email}
+                            onChange={(e) => handleAdditionalContactChange(index, 'email', e.target.value)}
+                            placeholder="email@example.com"
+                            className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor={`additionalPhone${index}`} className="text-white">Phone Number</Label>
+                          <Input
+                            id={`additionalPhone${index}`}
+                            value={additionalContacts[index].phone}
+                            onChange={(e) => handleAdditionalContactChange(index, 'phone', e.target.value)}
+                            placeholder="+1 (555) 123-4567"
+                            className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor={`additionalLinkedin${index}`} className="text-white">LinkedIn Profile</Label>
+                        <Input
+                          id={`additionalLinkedin${index}`}
+                          value={additionalContacts[index].linkedinProfile}
+                          onChange={(e) => handleAdditionalContactChange(index, 'linkedinProfile', e.target.value)}
+                          placeholder="https://linkedin.com/in/profile"
+                          className="bg-white/10 border-white/20 text-white placeholder:text-white/60"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         );
