@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { FormData, AdditionalContact } from "@/types/startup-form";
 import { useToast } from "@/hooks/use-toast";
@@ -192,6 +191,31 @@ export const useStartupForm = () => {
       }
 
       console.log('Form submitted successfully:', data);
+
+      // Send welcome email
+      try {
+        console.log('Sending welcome email...');
+        const { data: emailData, error: emailError } = await supabase.functions.invoke('send-welcome-email', {
+          body: {
+            submissionData: {
+              company_name: formData.companyName,
+              founder_name: formData.founderName,
+              email: formData.email,
+              industry: formData.industry,
+              project_description: formData.projectDescription
+            }
+          }
+        });
+
+        if (emailError) {
+          console.error('Error sending welcome email:', emailError);
+        } else {
+          console.log('Welcome email sent successfully:', emailData);
+        }
+      } catch (emailError) {
+        console.error('Error sending welcome email:', emailError);
+        // Don't fail the form submission if email fails
+      }
       
       toast({
         title: "Form Submitted Successfully!",
